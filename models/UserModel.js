@@ -1,19 +1,14 @@
-const mongoose = require('mongoose');
-
-const UserSchema = mongoose.Schema({
+module.exports = (sequelize, Sequelize) => {
+  const User = sequelize.define("users", {
     username: {
-      type: String,
-      required: true
+      type: Sequelize.STRING
     },
-    email:{
-      type: String,
-      required: true
+    email: {
+      type: Sequelize.STRING
     },
     password: {
-      type : String,
-      required: true
-    },
-    role:[]
-})
-
-export default mongoose.model("UserModel" ,UserSchema);
+      type: Sequelize.STRING
+    }
+  });
+  return User;
+};

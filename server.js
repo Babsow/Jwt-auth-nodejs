@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require('cors');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose')
+const db = require('./models');
+const Role = db.role
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
  
 const  app = express();
 dotenv.config()
@@ -20,7 +25,22 @@ app.get('/', (req, res)=> {
   res.json({message: "Jwt auth in nodeJs"});
 })
 
-mongoose.connect(process.env.MONGO_URL)
-.then(app.listen(process.env.PORT ,()=>{
-  console.log("Listening")
-}));
+app.listen(process.env.PORT ,()=>{
+  console.log("Listening")});
+
+function initial() {
+  Role.create({
+      id: 1,
+      name: "user"
+  });
+   
+  Role.create({
+      id: 2,
+      name: "moderator"
+    });
+   
+  Role.create({
+      id: 3,
+      name: "admin"
+    });
+}
